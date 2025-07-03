@@ -1,27 +1,55 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginScreen from './login/LoginScreen';
-import RegisterScreen from './register/RegisterScreen';
-import './App.css'; // Mantenha seu CSS global se tiver
+import LoginScreen from './components/LoginScreen/LoginScreen';
+import RegisterScreen from './components/RegisterScreen/RegisterScreen';
+import AppScreen from './components/AppScreen/AppScreen';
+import PrivateRoute from './components/PrivateRoute';
+import { useAuth } from './components/context/AuthContext';
+
+import './App.css'; // Seu CSS global, se houver
 
 function App() {
-  // Simulação de estado de autenticação (você o implementaria de forma mais robusta)
-  // Por enquanto, vamos assumir que não está autenticado para ver as telas de login/registro
-  const isAuthenticated = false; // Mude para true se quiser simular um usuário logado
+  // CHAME O HOOK useAuth AQUI NO COMPONENTE PAI
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Mostra um carregamento inicial enquanto o status de autenticação é verificado
+  if (isLoading) {
+    return <div>Verificando sessão...</div>;
+  }
 
   return (
     <Router>
       <div className="App">
         <Routes>
-          {/* Rota para a tela de Login */}
-          <Route path="/login" element={<LoginScreen />} />
+          {/* Rota para o Login: se já autenticado, redireciona para /app */}
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <LoginScreen />}
+          />
 
-          {/* Rota para a tela de Registro */}
-          <Route path="/register" element={<RegisterScreen />} />
+          {/* Rota para o Registro: se já autenticado, redireciona para /app */}
+          <Route
+            path="/register"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <RegisterScreen />}
+          />
 
-          {/* Rota padrão: se não houver rota específica, redireciona para /login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Rota Protegida: Apenas acessível se autenticado */}
+          <Route
+            path="/app"
+            element={
+              <PrivateRoute>
+                <AppScreen />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Rota Padrão (Catch-all): Se nenhuma rota corresponder */}
+          {/* Redireciona para /app se autenticado, caso contrário para /login */}
+          <Route
+            path="*"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/login" replace />}
+          />
         </Routes>
       </div>
     </Router>

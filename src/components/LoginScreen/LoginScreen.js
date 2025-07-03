@@ -1,44 +1,44 @@
 // src/components/LoginScreen/LoginScreen.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe useNavigate
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './LoginScreen.css';
 
-// Não precisamos mais das props onGoToRegister aqui
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate(); // Inicialize o hook de navegação
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     setError('');
+    try {
+      const response = await new Promise(resolve => {
+        setTimeout(() => {
+          if (email === 'user@example.com' && password === 'password123') {
+            resolve({ success: true, token: 'fake_jwt_token_12345' });
+          } else {
+            resolve({ success: false, message: 'Email ou senha inválidos.' });
+          }
+        }, 1000);
+      });
 
-    // Simulação da função de autenticação (mantenha sua lógica aqui)
-    const success = await new Promise(resolve => {
-      setTimeout(() => {
-        if (email === 'erro@teste.com' || password === 'senhaerrada') {
-          resolve(false);
-        } else {
-          resolve(true);
-        }
-      }, 500);
-    });
-
-    if (success) {
-      console.log('Login bem-sucedido!');
-      alert('Login realizado com sucesso!');
-      // TODO: Redirecionar para a página principal (ex: '/dashboard')
-      navigate('/dashboard'); // Exemplo: navega para uma rota de dashboard
-    } else {
-      console.log('Erro ao tentar fazer login.');
-      setError('Email ou senha inválidos. Por favor, tente novamente.');
+      if (response.success) {
+        console.log('Login bem-sucedido!');
+        login(response.token);
+      } else {
+        setError(response.message || 'Erro desconhecido ao fazer login.');
+      }
+    } catch (err) {
+      console.error('Erro na autenticação:', err);
+      setError('Ocorreu um erro ao tentar fazer login. Tente novamente.');
     }
   };
 
   const handleRegister = () => {
-    console.log('Botão Registrar clicado! Navegando para /register');
-    navigate('/register'); // Usa navigate para ir para a rota de registro
+    navigate('/register');
   };
 
   return (

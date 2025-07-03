@@ -53,10 +53,9 @@ const RegisterScreen = () => {
       setPassword('');
       setConfirmPassword('');
 
-      // Após o registro bem-sucedido, navega para a tela de login
-      setTimeout(() => { // Pequeno atraso para o usuário ver a mensagem de sucesso
+      setTimeout(() => { 
         navigate('/login');
-      }, 2000); // Navega após 2 segundos
+      }, 2000);
       
     } catch (err) {
       setError('Erro ao registrar. Por favor, tente novamente.');
