@@ -1,0 +1,151 @@
+/* RegisterScreen.css */
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px; /* Um pouco mais largo para acomodar mais campos se necessário */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.register-box h2 {
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #28a745; /* Cor verde para foco na tela de registro */
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+}
+
+.register-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745; /* Botão verde para registro */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.register-button:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+/* Estilo para a mensagem de erro */
+.error-message {
+  color: #dc3545; /* Vermelho para erro */
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Estilo para mensagem de sucesso */
+.success-message {
+  color: #28a745; /* Verde para sucesso */
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Estilo para o link "Já tem uma conta?" */
+.login-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #007bff; /* Cor azul para o link de login */
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* --- Media Queries para Responsividade --- */
+
+@media (max-width: 600px) {
+  .register-box {
+    padding: 30px 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .register-box h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+
+  .input-group label,
+  .input-group input,
+  .register-button {
+    font-size: 15px;
+  }
+
+  .input-group input {
+    padding: 10px;
+  }
+
+  .register-button {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-container {
+    padding: 10px;
+  }
+
+  .register-box {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

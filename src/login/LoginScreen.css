@@ -1,0 +1,141 @@
+/* LoginScreen.css */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Garante que ocupe a altura total da viewport */
+  background-color: #f0f2f5; /* Cor de fundo suave */
+  padding: 20px; /* Adiciona um padding em telas menores para não "colar" nas bordas */
+  box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais agradável */
+}
+
+.login-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Ocupa 100% da largura em telas menores */
+  max-width: 400px; /* Largura máxima para telas maiores */
+  text-align: center;
+  box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+}
+
+.login-box h2 {
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box; /* Essencial para que o padding não estoure a largura */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff; /* Cor azul mais vibrante no foco */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px); /* Pequeno efeito de elevação */
+}
+
+/* Estilo para a mensagem de erro */
+.error-message {
+  color: #dc3545; /* Vermelho mais padrão para erro */
+  font-size: 14px;
+  margin-top: -10px; /* Aproxima a mensagem dos campos de input */
+  margin-bottom: 15px; /* Adiciona espaço antes do botão */
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Estilo para o link de registro */
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  color: #0056b3; /* Escurece a cor no hover */
+}
+
+/* --- Media Queries para Responsividade --- */
+
+@media (max-width: 600px) {
+  .login-box {
+    padding: 30px 25px; /* Reduz o padding para telas menores */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra mais suave em telas pequenas */
+  }
+
+  .login-box h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+
+  .input-group label,
+  .input-group input,
+  .login-button {
+    font-size: 15px; /* Ajusta o tamanho da fonte para melhor leitura em celulares */
+  }
+
+  .input-group input {
+    padding: 10px; /* Reduz o padding dos inputs */
+  }
+
+  .login-button {
+    padding: 10px; /* Reduz o padding do botão */
+  }
+}
+
+@media (max-width: 400px) {
+  .login-container {
+    padding: 10px; /* Reduz o padding do container para telas muito pequenas */
+  }
+
+  .login-box {
+    border-radius: 0; /* Remove o border-radius para ocupar toda a largura */
+    box-shadow: none; /* Remove a sombra para uma aparência mais nativa em mobile */
+  }
+}
