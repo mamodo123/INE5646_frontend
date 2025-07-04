@@ -5,21 +5,21 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* Garante que ocupe a altura total da viewport */
-  background-color: #f0f2f5; /* Cor de fundo suave */
-  padding: 20px; /* Adiciona um padding em telas menores para não "colar" nas bordas */
-  box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais agradável */
+  background-color: #f0f2f5; /* Fundo suave */
+  padding: 20px; /* Espaçamento interno para telas pequenas */
+  box-sizing: border-box; /* Inclui padding e borda no tamanho total */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .login-box {
   background-color: #ffffff;
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Ocupa 100% da largura em telas menores */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
+  width: 100%; /* Ocupa largura total em telas menores */
   max-width: 400px; /* Largura máxima para telas maiores */
   text-align: center;
-  box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+  box-sizing: border-box;
 }
 
 .login-box h2 {
@@ -48,13 +48,13 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-  box-sizing: border-box; /* Essencial para que o padding não estoure a largura */
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: #007bff; /* Cor azul mais vibrante no foco */
+  border-color: #007bff; /* Destaca o input no foco */
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
@@ -74,20 +74,18 @@
 
 .login-button:hover {
   background-color: #0056b3;
-  transform: translateY(-1px); /* Pequeno efeito de elevação */
+  transform: translateY(-1px); /* Efeito de "lift" ao passar o mouse */
 }
 
-/* Estilo para a mensagem de erro */
 .error-message {
-  color: #dc3545; /* Vermelho mais padrão para erro */
+  color: #dc3545; /* Cor vermelha para indicar erro */
   font-size: 14px;
-  margin-top: -10px; /* Aproxima a mensagem dos campos de input */
-  margin-bottom: 15px; /* Adiciona espaço antes do botão */
+  margin-top: -10px;
+  margin-bottom: 15px;
   text-align: center;
   font-weight: 500;
 }
 
-/* Estilo para o link de registro */
 .register-link {
   margin-top: 20px;
   font-size: 14px;
@@ -98,15 +96,13 @@
 
 .register-link:hover {
   text-decoration: underline;
-  color: #0056b3; /* Escurece a cor no hover */
+  color: #0056b3;
 }
-
-/* --- Media Queries para Responsividade --- */
 
 @media (max-width: 600px) {
   .login-box {
-    padding: 30px 25px; /* Reduz o padding para telas menores */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra mais suave em telas pequenas */
+    padding: 30px 25px; /* Reduz o padding em telas menores */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra mais discreta */
   }
 
   .login-box h2 {
@@ -117,25 +113,25 @@
   .input-group label,
   .input-group input,
   .login-button {
-    font-size: 15px; /* Ajusta o tamanho da fonte para melhor leitura em celulares */
+    font-size: 15px; /* Ajusta o tamanho da fonte para mobile */
   }
 
   .input-group input {
-    padding: 10px; /* Reduz o padding dos inputs */
+    padding: 10px; /* Diminui o padding dos inputs */
   }
 
   .login-button {
-    padding: 10px; /* Reduz o padding do botão */
+    padding: 10px; /* Diminui o padding do botão */
   }
 }
 
 @media (max-width: 400px) {
   .login-container {
-    padding: 10px; /* Reduz o padding do container para telas muito pequenas */
+    padding: 10px; /* Padding menor para telas muito pequenas */
   }
 
   .login-box {
-    border-radius: 0; /* Remove o border-radius para ocupar toda a largura */
-    box-shadow: none; /* Remove a sombra para uma aparência mais nativa em mobile */
+    border-radius: 0; /* Remove bordas para ocupar 100% da largura */
+    box-shadow: none; /* Remove a sombra em mobile para uma aparência mais fluida */
   }
 }

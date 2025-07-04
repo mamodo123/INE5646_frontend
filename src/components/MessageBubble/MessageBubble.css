@@ -1,20 +1,20 @@
 .message-bubble {
-  margin-bottom: 8px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  max-width: 80%;
-  word-break: break-word;
-  font-size: 0.95rem;
+  margin-bottom: 8px; /* Espaçamento inferior entre as bolhas de mensagem */
+  padding: 8px 12px; /* Espaçamento interno da bolha */
+  border-radius: 8px; /* Cantos arredondados da bolha */
+  max-width: 80%; /* Largura máxima da bolha para evitar que ocupe a tela toda */
+  word-break: break-word; /* Garante que palavras longas quebrem e se ajustem à bolha */
+  font-size: 0.95rem; /* Tamanho da fonte do texto da mensagem */
 }
 
 .message-bubble.user {
-  align-self: flex-end;
-  background-color: #d1e7dd;
-  color: #0f5132;
+  align-self: flex-end; /* Alinha a bolha do usuário à direita em um container flex */
+  background-color: #d1e7dd; /* Cor de fundo para mensagens do usuário (verde claro) */
+  color: #0f5132; /* Cor do texto para mensagens do usuário (verde escuro) */
 }
 
 .message-bubble.ai {
-  align-self: flex-start;
-  background-color: #f8f9fa;
-  color: #212529;
+  align-self: flex-start; /* Alinha a bolha da IA à esquerda em um container flex */
+  background-color: #f8f9fa; /* Cor de fundo para mensagens da IA (cinza muito claro) */
+  color: #212529; /* Cor do texto para mensagens da IA (quase preto) */
 }

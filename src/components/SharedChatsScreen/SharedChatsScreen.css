@@ -1,0 +1,285 @@
+/* src/components/SharedChatsScreen/SharedChatsScreen.css */
+
+/* --- Layout Base do Dashboard de Chats Compartilhados --- */
+.shared-dashboard-container {
+  display: flex;
+  flex-direction: column; /* Organiza os elementos verticalmente */
+  min-height: 100vh; /* Garante que ocupe a altura total da viewport */
+  background-color: #f0f2f5; /* Cor de fundo suave */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define a família da fonte */
+  color: #333; /* Cor padrão do texto */
+}
+
+/* --- Cabeçalho --- */
+.shared-dashboard-header {
+  display: flex;
+  justify-content: space-between; /* Alinha itens nas extremidades */
+  align-items: center; /* Centraliza itens verticalmente */
+  padding: 15px 30px; /* Espaçamento interno */
+  background-color: #ffffff; /* Fundo branco */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidade */
+  flex-shrink: 0; /* Impede que o cabeçalho encolha */
+  z-index: 10; /* Garante que o cabeçalho fique acima de outros elementos */
+}
+
+.shared-dashboard-header h2 {
+  margin: 0; /* Remove margens padrão */
+  font-size: 24px; /* Tamanho do título */
+  color: #007bff; /* Cor do título */
+  font-weight: 600; /* Peso da fonte */
+}
+
+.shared-dashboard-header > div {
+  display: flex;
+  gap: 15px; /* Espaçamento entre os botões */
+  align-items: center; /* Centraliza botões verticalmente */
+}
+
+.shared-dashboard-header button {
+  padding: 10px 20px; /* Espaçamento interno dos botões */
+  border: 1px solid #dcdcdc; /* Borda sutil */
+  border-radius: 25px; /* Cantos bem arredondados */
+  cursor: pointer; /* Indica que é clicável */
+  font-size: 15px; /* Tamanho da fonte */
+  font-weight: 500; /* Peso da fonte */
+  transition: all 0.2s ease-in-out; /* Transição suave para interações */
+  background-color: #f8f9fa; /* Fundo claro */
+  color: #495057; /* Cor do texto */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+}
+
+.shared-dashboard-header button:hover {
+  background-color: #e9ecef; /* Fundo mais escuro ao passar o mouse */
+  border-color: #c9c9c9; /* Borda mais escura ao passar o mouse */
+  transform: translateY(-1px); /* Pequeno efeito de elevação */
+}
+
+.shared-dashboard-header button.logout-button {
+  background-color: #dc3545; /* Cor de fundo vermelha para o botão de sair */
+  color: white; /* Cor do texto branca */
+  border-color: #dc3545; /* Cor da borda vermelha */
+}
+
+.shared-dashboard-header button.logout-button:hover {
+  background-color: #c82333; /* Cor de fundo mais escura ao passar o mouse */
+  border-color: #c82333; /* Cor da borda mais escura ao passar o mouse */
+  transform: translateY(-1px); /* Pequeno efeito de elevação */
+}
+
+/* --- Área de Conteúdo Principal (Sidebar e Área de Chat) --- */
+.shared-dashboard-main {
+  display: flex;
+  flex-grow: 1; /* Permite que ocupe o espaço restante verticalmente */
+  overflow: hidden; /* Gerencia o overflow para evitar barras de rolagem indesejadas */
+}
+
+/* --- Sidebar --- */
+.shared-dashboard-sidebar {
+  width: 280px; /* Largura fixa da sidebar */
+  min-width: 200px; /* Largura mínima para a sidebar */
+  background-color: #2c3e50; /* Cor de fundo escura */
+  color: #ecf0f1; /* Cor do texto clara */
+  padding: 20px; /* Espaçamento interno */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para separar do conteúdo principal */
+  display: flex;
+  flex-direction: column; /* Organiza os itens verticalmente */
+  flex-shrink: 0; /* Impede que a sidebar encolha */
+  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder a altura */
+}
+
+.shared-dashboard-sidebar h3 {
+  margin-top: 0; /* Remove margem superior padrão */
+  margin-bottom: 20px; /* Espaçamento inferior */
+  font-size: 20px; /* Tamanho do título da sidebar */
+  color: #3498db; /* Cor do título */
+}
+
+.shared-dashboard-sidebar ul {
+  list-style: none; /* Remove marcadores de lista */
+  padding: 0; /* Remove padding padrão */
+  margin: 0; /* Remove margem padrão */
+}
+
+.shared-chat-item {
+  display: flex;
+  flex-direction: column; /* Coloca nome e dono um abaixo do outro */
+  align-items: flex-start; /* Alinha o conteúdo à esquerda */
+  padding: 12px 15px; /* Espaçamento interno do item de chat */
+  margin-bottom: 8px; /* Espaçamento inferior entre os itens */
+  border-radius: 8px; /* Cantos arredondados */
+  cursor: pointer; /* Indica que é clicável */
+  transition: background-color 0.2s ease, color 0.2s ease; /* Transição suave para interações */
+  color: #ecf0f1; /* Cor do texto */
+  text-align: left; /* Alinha o texto à esquerda */
+}
+
+.shared-chat-item:hover {
+  background-color: #34495e; /* Fundo mais escuro ao passar o mouse */
+  color: #ffffff; /* Cor do texto branca ao passar o mouse */
+}
+
+.shared-chat-item.active {
+  background-color: #3498db; /* Fundo azul para o item de chat ativo */
+  font-weight: bold; /* Texto em negrito para o item ativo */
+  color: white; /* Cor do texto branca para o item ativo */
+}
+
+.shared-chat-name-text {
+  font-weight: bold; /* Nome do chat em negrito */
+  font-size: 16px; /* Tamanho da fonte do nome do chat */
+  margin-bottom: 4px; /* Espaço entre nome e dono */
+  width: 100%; /* Garante que ocupe a linha */
+  overflow: hidden; /* Esconde o conteúdo que excede o limite */
+  text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+}
+
+.shared-chat-owner-text {
+  font-size: 12px; /* Tamanho da fonte do nome do dono */
+  color: #bdc3c7; /* Cor mais suave para o nome do dono */
+  width: 100%; /* Garante que ocupe a linha */
+  overflow: hidden; /* Esconde o conteúdo que excede o limite */
+  text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+}
+
+/* --- Área de Chat (similar ao DashboardScreen, mas sem input) --- */
+.shared-dashboard-chat-area {
+  flex-grow: 1; /* Permite que ocupe o espaço restante horizontalmente */
+  display: flex;
+  flex-direction: column; /* Organiza os elementos verticalmente */
+  background-color: #ffffff; /* Fundo branco */
+  padding: 20px; /* Espaçamento interno */
+  border-left: 1px solid #e0e0e0; /* Borda à esquerda para separar da sidebar */
+}
+
+.shared-chat-area-title {
+  margin-top: 0; /* Remove margem superior padrão */
+  margin-bottom: 20px; /* Espaçamento inferior */
+  font-size: 24px; /* Tamanho do título da área de chat */
+  color: #333; /* Cor do texto */
+  font-weight: 600; /* Peso da fonte */
+  text-align: center; /* Centraliza o título */
+  padding-bottom: 10px; /* Espaçamento inferior para a borda */
+  border-bottom: 1px solid #eee; /* Borda inferior para separar do conteúdo */
+  flex-shrink: 0; /* Impede que o título encolha */
+}
+
+.shared-chat-messages-display { /* Área de mensagens com rolagem */
+  flex-grow: 1; /* Permite que ocupe o espaço restante verticalmente */
+  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder a altura */
+  padding-right: 10px; /* Espaçamento à direita para a barra de rolagem */
+  padding-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Reutilizando estilos de MessageBubble (certifique-se que estão em um arquivo separado ou no CSS global) */
+.message-bubble {
+  max-width: 80%; /* Largura máxima da bolha */
+  padding: 10px 15px; /* Espaçamento interno */
+  border-radius: 18px; /* Cantos arredondados */
+  margin-bottom: 10px; /* Espaçamento inferior */
+  line-height: 1.5; /* Altura da linha */
+  word-wrap: break-word; /* Quebra palavras longas */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.message-bubble.user {
+  background-color: #007bff; /* Cor de fundo para mensagens do usuário */
+  color: white; /* Cor do texto branca */
+  margin-left: auto; /* Alinha à direita */
+  border-bottom-right-radius: 2px; /* Pequeno ajuste no canto */
+}
+
+.message-bubble.ai {
+  background-color: #e0e0e0; /* Cor de fundo para mensagens da IA */
+  color: #333; /* Cor do texto */
+  margin-right: auto; /* Alinha à esquerda */
+  border-bottom-left-radius: 2px; /* Pequeno ajuste no canto */
+}
+
+.message-bubble p {
+  margin: 0; /* Remove margens padrão de parágrafos dentro da bolha */
+}
+
+/* --- Media Queries (ajustes para responsividade) --- */
+@media (max-width: 768px) {
+  .shared-dashboard-header {
+    padding: 10px 20px; /* Reduz o padding do cabeçalho */
+    flex-direction: column; /* Empilha os itens verticalmente */
+    gap: 10px; /* Reduz o espaçamento entre os itens */
+  }
+
+  .shared-dashboard-header h2 {
+    font-size: 20px; /* Reduz o tamanho do título */
+  }
+
+  .shared-dashboard-header > div {
+    gap: 10px; /* Reduz o espaçamento entre os botões */
+  }
+
+  .shared-dashboard-main {
+    flex-direction: column; /* Empilha sidebar e área de chat */
+  }
+
+  .shared-dashboard-sidebar {
+    width: 100%; /* Sidebar ocupa a largura total */
+    min-width: unset; /* Remove largura mínima */
+    height: auto; /* Altura automática */
+    max-height: 200px; /* Altura máxima para a sidebar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para separar do conteúdo */
+    border-bottom: 1px solid #e0e0e0; /* Borda inferior */
+    overflow-y: scroll; /* Adiciona rolagem vertical */
+  }
+
+  .shared-dashboard-sidebar ul {
+    display: flex; /* Alinha itens horizontalmente */
+    overflow-x: auto; /* Adiciona rolagem horizontal */
+    padding-bottom: 10px; /* Espaçamento inferior */
+  }
+
+  .shared-chat-item {
+    flex-shrink: 0; /* Impede que os itens encolham */
+    width: auto; /* Largura automática */
+    min-width: 120px; /* Largura mínima para cada item */
+    margin-right: 10px; /* Espaçamento à direita */
+    align-items: center; /* Centraliza o conteúdo */
+    padding: 10px; /* Reduz o padding */
+  }
+
+  .shared-chat-name-text {
+    font-size: 14px; /* Reduz o tamanho da fonte */
+    margin-bottom: 0; /* Remove margem extra */
+    padding-right: 0; /* Remove padding extra */
+  }
+  .shared-chat-owner-text {
+    font-size: 10px; /* Reduz o tamanho da fonte */
+  }
+
+  .shared-dashboard-chat-area {
+    padding: 15px; /* Reduz o padding da área de chat */
+    border-left: none; /* Remove a borda esquerda */
+  }
+}
+
+@media (max-width: 480px) {
+  .shared-dashboard-header {
+    padding: 10px 15px; /* Reduz ainda mais o padding do cabeçalho */
+  }
+
+  .shared-dashboard-header h2 {
+    font-size: 18px; /* Reduz o tamanho do título */
+  }
+
+  .shared-dashboard-header > div {
+    gap: 8px; /* Reduz o espaçamento entre os botões */
+  }
+
+  .shared-dashboard-sidebar {
+    padding: 15px; /* Reduz o padding da sidebar */
+    max-height: 150px; /* Reduz a altura máxima da sidebar */
+  }
+
+  .shared-dashboard-chat-area {
+    padding: 10px; /* Reduz o padding da área de chat */
+  }
+}

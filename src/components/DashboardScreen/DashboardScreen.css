@@ -1,31 +1,28 @@
-/* === Base === */
+/* --- */
+/* === Layout Base do Dashboard === */
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  /* ALTERAÇÃO: Garante que o container ocupe exatamente a altura da tela */
-  height: 100vh; 
+  height: 100vh; /* Garante que o dashboard ocupe toda a altura da tela */
   background: #f5f7fa;
   font-family: 'Segoe UI', Tahoma, sans-serif;
   color: #333;
-  /* ALTERAÇÃO: Impede a rolagem do corpo da página */
-  overflow: hidden; 
+  overflow: hidden; /* Previne a rolagem da página principal */
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* ALTERAÇÃO: Altura do header reduzida */
-  padding: 8px 24px; 
+  padding: 8px 24px; /* Ajuste no padding para um header mais compacto */
   background: #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   z-index: 10;
-  /* ALTERAÇÃO: Impede que o header encolha */
-  flex-shrink: 0; 
+  flex-shrink: 0; /* Impede que o header encolha */
 }
 
 .dashboard-header h2 {
-  font-size: 20px; /* Levemente reduzido */
+  font-size: 20px;
   color: #007bff;
 }
 
@@ -49,12 +46,12 @@
   transform: translateY(-1px);
 }
 
-/* === Main Layout === */
+/* --- */
+/* === Layout Principal (Sidebar e Área de Chat) === */
 .dashboard-main {
   display: flex;
-  flex-grow: 1;
-  /* ALTERAÇÃO: Essencial para conter o layout e evitar rolagem dupla */
-  overflow: hidden; 
+  flex-grow: 1; /* Permite que ocupe o espaço restante verticalmente */
+  overflow: hidden; /* Essencial para gerenciar a rolagem interna e evitar vazamentos */
 }
 
 .dashboard-sidebar {
@@ -62,10 +59,10 @@
   background: #2c3e50;
   color: #ecf0f1;
   padding: 20px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Impede que a sidebar encolha */
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: auto; /* Adiciona rolagem se o conteúdo da sidebar exceder a altura */
 }
 
 .dashboard-sidebar h3 {
@@ -121,7 +118,7 @@
   flex-grow: 1;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* Trunca o texto do nome do chat com reticências */
   margin-right: 6px;
 }
 
@@ -135,15 +132,15 @@
   opacity: 1;
 }
 
-/* === Chat Area === */
+/* --- */
+/* === Área de Chat === */
 .dashboard-chat-area {
-  flex-grow: 1;
+  flex-grow: 1; /* Permite que a área de chat ocupe o espaço restante horizontalmente */
   background: #fff;
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e0e0e0;
-  /* ALTERAÇÃO: Impede que a área de chat vaze para fora do container principal */
-  overflow: hidden; 
+  overflow: hidden; /* Impede que o conteúdo vaze da área de chat */
 }
 
 .chat-area-title {
@@ -151,14 +148,13 @@
   font-weight: 600;
   margin-bottom: 16px;
   border-bottom: 1px solid #eee;
-  padding: 16px 20px 10px; /* Ajuste no padding */
-  flex-shrink: 0;
+  padding: 16px 20px 10px;
+  flex-shrink: 0; /* Impede que o título encolha */
 }
 
-/* ALTERAÇÃO: A área de mensagens agora cresce e tem sua própria rolagem */
 .chat-messages-display {
-  flex-grow: 1;
-  overflow-y: auto; 
+  flex-grow: 1; /* Permite que a área de mensagens cresça e ocupe o espaço */
+  overflow-y: auto; /* Habilita rolagem vertical para as mensagens */
   padding: 0 20px;
 }
 
@@ -169,36 +165,37 @@
   margin-bottom: 12px;
   line-height: 1.5;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  word-wrap: break-word;
-  white-space: pre-wrap;
+  word-wrap: break-word; /* Garante que palavras longas quebrem */
+  white-space: pre-wrap; /* Preserva espaços e quebras de linha no texto */
 }
 
 .message-bubble.user {
   background: #007bff;
   color: #fff;
-  margin-left: auto;
+  margin-left: auto; /* Alinha a bolha do usuário à direita */
   border-bottom-right-radius: 2px;
 }
 
 .message-bubble.ai {
   background: #ececec;
   color: #333;
-  margin-right: auto;
+  margin-right: auto; /* Alinha a bolha da IA à esquerda */
   border-bottom-left-radius: 2px;
 }
 
-/* === Chat Input === */
+/* --- */
+/* === Área de Input do Chat === */
 .chat-input-form {
   display: flex;
   gap: 10px;
-  padding: 10px 20px; /* Ajuste no padding */
+  padding: 10px 20px;
   margin-top: 10px;
   border-top: 1px solid #e0e0e0;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Impede que o input encolha */
 }
 
 .chat-input-form input {
-  flex-grow: 1;
+  flex-grow: 1; /* Permite que o campo de input ocupe o espaço disponível */
   padding: 12px 16px;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -230,24 +227,25 @@
   background: #ccc;
   cursor: not-allowed;
   opacity: 0.7;
-  pointer-events: none;
+  pointer-events: none; /* Desabilita interações com o botão desativado */
 }
 
-/* === Responsivo === */
+/* --- */
+/* === Responsividade === */
 @media (max-width: 768px) {
   .dashboard-main {
-    flex-direction: column;
+    flex-direction: column; /* Pilha sidebar e área de chat em telas menores */
   }
 
   .dashboard-sidebar {
     width: 100%;
-    max-height: 180px; 
+    max-height: 180px; /* Limita a altura da sidebar em telas menores */
     border-bottom: 1px solid #e0e0e0;
   }
 
   .dashboard-sidebar ul {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Layout horizontal para itens da sidebar */
     gap: 10px;
   }
 
@@ -257,17 +255,17 @@
   }
 
   .dashboard-chat-area {
-    padding: 0; /* Remove padding para dar mais espaço */
+    padding: 0; /* Remove padding para otimizar espaço em telas menores */
   }
 
   .chat-area-title, .chat-input-form {
-      padding-left: 16px;
-      padding-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   
   .chat-messages-display {
-      padding-left: 16px;
-      padding-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
@@ -288,4 +286,86 @@
     font-size: 14px;
     padding: 10px 16px;
   }
+}
+
+/* --- */
+/* === Componentes de Compartilhamento e Modal === */
+.chat-area-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.share-chat-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.share-chat-button:hover {
+  background-color: #45a049;
+}
+
+.share-feedback {
+  color: #e53935;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para o modal */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* Garante que o modal esteja acima de outros elementos */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-buttons .cancel-button {
+  background-color: #ccc;
+}
+
+.modal-buttons button:not(.cancel-button) {
+  background-color: #4caf50;
+  color: white;
 }

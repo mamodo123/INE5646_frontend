@@ -2,51 +2,51 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../api/axiosInstance';
-// import { useAuth } from '../../context/AuthContext';
-import './ProfileScreen.css'; // Reutilizando ou criando um novo CSS
+import './ProfileScreen.css'; // Importa os estilos CSS para esta tela
 
+// Componente da tela de perfil do usuário
 const ProfileScreen = () => {
-//   const { logout } = useAuth();
-  const [name, setName] = useState('');
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true); // Novo estado para carregamento do perfil
+  // Estados para gerenciar os dados do perfil e as mensagens de feedback
+  const [name, setName] = useState(''); // Nome do usuário
+  const [oldPassword, setOldPassword] = useState(''); // Senha antiga para validação de mudança de senha
+  const [newPassword, setNewPassword] = useState(''); // Nova senha
+  const [confirmNewPassword, setConfirmNewPassword] = useState(''); // Confirmação da nova senha
+  const [error, setError] = useState(''); // Mensagens de erro
+  const [successMessage, setSuccessMessage] = useState(''); // Mensagens de sucesso
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true); // Indica se o perfil está sendo carregado
+
+  // Hook para navegação entre rotas
   const navigate = useNavigate();
 
-  // NOVO: useEffect para carregar o nome do usuário ao montar a tela
+  // Efeito para carregar os dados do perfil do usuário ao montar o componente
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await API.get('/profile'); // Requisição GET para o backend
-        setName(response.data.user.name); // Define o nome no estado
-        setIsLoadingProfile(false); // Finaliza o carregamento
+        // Faz uma requisição GET para obter os dados do perfil do usuário
+        const response = await API.get('/profile');
+        setName(response.data.user.name); // Define o nome do usuário no estado
       } catch (err) {
         console.error("Erro ao carregar perfil:", err.response ? err.response.data : err.message);
         setError("Não foi possível carregar os dados do perfil.");
-        setIsLoadingProfile(false);
-        // Se for erro de autenticação (401/403), o interceptador do Axios já vai deslogar
+      } finally {
+        setIsLoadingProfile(false); // Finaliza o estado de carregamento
       }
     };
     fetchProfile();
-  }, []); // Array de dependências vazio para rodar apenas uma vez na montagem
+  }, []); // Array de dependências vazio para executar apenas uma vez
 
+  // Função para validar os dados do formulário antes do envio
   const validateForm = () => {
-    setError('');
-    setSuccessMessage('');
+    setError(''); // Limpa erros anteriores
+    setSuccessMessage(''); // Limpa mensagens de sucesso anteriores
 
-    // Validação de nome (agora verifica se foi alterado e se não está vazio)
-    // Se o usuário não alterou o nome, mas alterou a senha, setName('');
-    // ao carregar os dados não vai resetar o nome original.
-    // É importante que o backend aceite name nulo para não alterar.
+    // Validação do campo de nome
     if (name && name.trim() === '') {
       setError('O nome não pode ser vazio.');
       return false;
     }
 
-    // Validações de senha (apenas se nova senha for fornecida)
+    // Validações para a nova senha, se ela for fornecida
     if (newPassword) {
       if (newPassword.length < 8) {
         setError('A nova senha deve ter pelo menos 8 caracteres.');
@@ -76,58 +76,59 @@ const ProfileScreen = () => {
         setError('Para alterar a senha, a senha antiga é obrigatória.');
         return false;
       }
-    } else { // Se newPassword NÃO foi fornecida, mas oldPassword ou confirmNewPassword foram
-        if (oldPassword || confirmNewPassword) {
-            setError('Preencha a nova senha ou deixe os campos de senha em branco para não alterar.');
-            return false;
-        }
-    }
-
-
-    // Verifica se alguma alteração real foi feita ou se os campos de nome/senha não foram mexidos
-    // Apenas envie a requisição se houver algo para atualizar
-    if (!name && !newPassword) { // Se nem nome nem nova senha foram preenchidos
-        setError('Nenhuma alteração foi fornecida.');
+    } else {
+      // Se a nova senha NÃO foi fornecida, mas a senha antiga ou a confirmação foram,
+      // indica que há um preenchimento inconsistente.
+      if (oldPassword || confirmNewPassword) {
+        setError('Preencha a nova senha ou deixe os campos de senha em branco para não alterar.');
         return false;
+      }
     }
 
-    return true;
+    // Verifica se alguma alteração foi realmente feita para evitar requisições vazias
+    if (!name && !newPassword) {
+      setError('Nenhuma alteração foi fornecida.');
+      return false;
+    }
+
+    return true; // Formulário válido
   };
 
+  // Função assíncrona para lidar com a atualização do perfil
   const handleUpdateProfile = async () => {
-    setError('');
-    setSuccessMessage('');
+    setError(''); // Limpa erros anteriores
+    setSuccessMessage(''); // Limpa mensagens de sucesso anteriores
 
     if (!validateForm()) {
-      return;
+      return; // Interrompe se a validação falhar
     }
 
     try {
       const updateData = {};
-      if (name) updateData.name = name; // Envia o nome apenas se o campo foi preenchido/alterado
-      
-      // Só adiciona os dados de senha se uma nova senha foi fornecida
-      if (newPassword) { 
+      // Adiciona o nome aos dados de atualização apenas se ele foi preenchido/modificado
+      if (name) updateData.name = name;
+
+      // Adiciona os dados de senha apenas se uma nova senha foi fornecida
+      if (newPassword) {
         updateData.oldPassword = oldPassword;
         updateData.newPassword = newPassword;
       }
 
-      // Se nenhum dado para atualização foi coletado (ex: nome veio vazio e nova senha vazia), não faça a requisição
+      // Se não há dados para atualizar, exibe um erro e não faz a requisição
       if (Object.keys(updateData).length === 0) {
         setError('Nenhuma alteração foi fornecida.');
-        return; // Não envia a requisição se não há nada para atualizar
+        return;
       }
 
+      // Envia a requisição PUT para a API para atualizar o perfil
       const response = await API.put('/profile', updateData);
 
       if (response.status === 200) {
         setSuccessMessage(response.data.message || 'Perfil atualizado com sucesso!');
-        // Limpar campos de senha após sucesso
+        // Limpa os campos de senha após uma atualização bem-sucedida
         setOldPassword('');
         setNewPassword('');
         setConfirmNewPassword('');
-        // Opcional: Limpar campo de nome se ele foi atualizado para o novo nome digitado
-        // setName(''); // Não, o nome já está no estado, não precisa limpar
       } else {
         setError('Ocorreu um erro inesperado ao atualizar o perfil.');
       }
@@ -141,11 +142,13 @@ const ProfileScreen = () => {
     }
   };
 
+  // Função para navegar de volta para a tela inicial (dashboard)
   const handleGoToHome = () => {
     navigate('/app');
   };
 
-  if (isLoadingProfile) { // Mostra um carregamento enquanto busca o nome
+  // Renderiza uma mensagem de carregamento enquanto o perfil está sendo buscado
+  if (isLoadingProfile) {
     return (
       <div className="register-container">
         <div className="register-box">
@@ -160,9 +163,11 @@ const ProfileScreen = () => {
     <div className="register-container">
       <div className="register-box">
         <h2>Atualizar Perfil</h2>
+        {/* Exibe mensagens de erro ou sucesso */}
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
 
+        {/* Campo para o nome completo */}
         <div className="input-group">
           <label htmlFor="name">Nome Completo</label>
           <input
@@ -173,6 +178,7 @@ const ProfileScreen = () => {
             placeholder="Seu nome atual"
           />
         </div>
+        {/* Campo para a senha antiga */}
         <div className="input-group">
           <label htmlFor="oldPassword">Senha Antiga</label>
           <input
@@ -183,6 +189,7 @@ const ProfileScreen = () => {
             placeholder="Obrigatório para trocar a senha"
           />
         </div>
+        {/* Campo para a nova senha */}
         <div className="input-group">
           <label htmlFor="newPassword">Nova Senha</label>
           <input
@@ -193,6 +200,7 @@ const ProfileScreen = () => {
             placeholder="Mínimo 8 caracteres, com maiúscula, minúscula, número e especial"
           />
         </div>
+        {/* Campo para confirmar a nova senha */}
         <div className="input-group">
           <label htmlFor="confirmNewPassword">Repetir Nova Senha</label>
           <input
@@ -204,11 +212,13 @@ const ProfileScreen = () => {
           />
         </div>
 
+        {/* Botão para atualizar o perfil */}
         <button className="register-button" onClick={handleUpdateProfile}>
           Atualizar Perfil
         </button>
+        {/* Link para voltar à tela inicial */}
         <p className="login-link" onClick={handleGoToHome}>
-          Voltar para **Home**
+          Voltar para <strong>Home</strong>
         </p>
       </div>
     </div>

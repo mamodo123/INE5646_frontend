@@ -2,46 +2,48 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import API from '../../api/axiosInstance'; // Importe sua instância de Axios
+import API from '../../api/axiosInstance'; // Importa a instância configurada do Axios
 import './LoginScreen.css';
 
+// Componente da tela de login
 const LoginScreen = () => {
+  // Estados para armazenar os valores dos campos de email e senha, e mensagens de erro
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  // Hooks para navegação e acesso ao contexto de autenticação
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  // Função assíncrona para lidar com o processo de login
   const handleLogin = async () => {
-    setError(''); // Limpa erros anteriores
+    setError(''); // Limpa qualquer mensagem de erro anterior
 
     try {
-      // Faz a requisição POST para a rota de login do seu backend
+      // Envia uma requisição POST para a API de login com as credenciais do usuário
       const response = await API.post('/login', { email, password });
 
-      // Se a requisição foi bem-sucedida (status 200, 201, etc.)
-      if (response.status === 200) { // O backend retorna 200 para sucesso no login
-        console.log('Login bem-sucedido!', response.data);
-        // O token JWT vem na propriedade 'token' da resposta do backend
-        login(response.data.token); // Chama a função login do contexto com o token recebido
-        // O redirecionamento para /app será tratado pelo App.js (rotas)
-      } else {
-        // Isso geralmente não será atingido se o backend retornar um status de erro (400, 401),
-        // pois o 'catch' abaixo ou o interceptador de Axios lidarão com isso.
-        setError('Ocorreu um erro inesperado ao fazer login.');
+      // Verifica se a requisição foi bem-sucedida (status 200)
+      if (response.status === 200) {
+        // Chama a função de login do contexto de autenticação, passando o token JWT recebido
+        login(response.data.token);
+        // A navegação para a rota protegida será gerenciada pelo componente App.js
       }
     } catch (err) {
-      // Captura erros de requisição (por exemplo, status 400, 401, 500)
+      // Captura e trata erros da requisição (ex: credenciais inválidas, erro de servidor)
       console.error('Erro na autenticação:', err.response ? err.response.data : err.message);
       if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message); // Exibe a mensagem de erro do backend
+        // Exibe a mensagem de erro fornecida pelo backend
+        setError(err.response.data.message);
       } else {
+        // Exibe uma mensagem de erro genérica em caso de falha de conexão ou erro inesperado
         setError('Ocorreu um erro ao tentar fazer login. Verifique sua conexão ou tente novamente.');
       }
     }
   };
 
+  // Função para navegar para a tela de registro
   const handleRegister = () => {
     navigate('/register');
   };
@@ -50,6 +52,7 @@ const LoginScreen = () => {
     <div className="login-container">
       <div className="login-box">
         <h2>Login</h2>
+        {/* Campo de input para o email */}
         <div className="input-group">
           <label htmlFor="email">Email</label>
           <input
@@ -60,6 +63,7 @@ const LoginScreen = () => {
             placeholder="Digite seu email"
           />
         </div>
+        {/* Campo de input para a senha */}
         <div className="input-group">
           <label htmlFor="password">Senha</label>
           <input
@@ -71,13 +75,16 @@ const LoginScreen = () => {
           />
         </div>
 
+        {/* Exibe a mensagem de erro, se houver */}
         {error && <p className="error-message">{error}</p>}
 
+        {/* Botão para realizar o login */}
         <button className="login-button" onClick={handleLogin}>
           Entrar
         </button>
+        {/* Link para a tela de registro */}
         <p className="register-link" onClick={handleRegister}>
-          Não tem uma conta? **Registrar**
+          Não tem uma conta? <strong>Registrar</strong>
         </p>
       </div>
     </div>

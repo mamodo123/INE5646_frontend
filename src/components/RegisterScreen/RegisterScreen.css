@@ -1,151 +1,163 @@
 /* RegisterScreen.css */
 
+/* Estilos para o container principal da tela de registro */
 .register-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  padding: 20px;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  min-height: 100vh; /* Garante que o container ocupe a altura total da viewport */
+  background-color: #f0f2f5; /* Cor de fundo suave */
+  padding: 20px; /* Espaçamento interno para evitar que o conteúdo cole nas bordas */
+  box-sizing: border-box; /* Inclui padding e borda no cálculo do tamanho total */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define a família da fonte */
 }
 
+/* Estilos para a caixa principal do formulário de registro */
 .register-box {
-  background-color: #ffffff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 450px; /* Um pouco mais largo para acomodar mais campos se necessário */
-  text-align: center;
-  box-sizing: border-box;
+  background-color: #ffffff; /* Fundo branco para a caixa */
+  padding: 40px; /* Espaçamento interno da caixa */
+  border-radius: 8px; /* Cantos arredondados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para profundidade */
+  width: 100%; /* Ocupa a largura total disponível */
+  max-width: 450px; /* Largura máxima para a caixa em telas maiores */
+  text-align: center; /* Centraliza o texto dentro da caixa */
+  box-sizing: border-box; /* Inclui padding e borda no cálculo do tamanho total */
 }
 
+/* Estilos para o título principal dentro da caixa de registro */
 .register-box h2 {
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 28px;
-  font-weight: 600;
+  margin-bottom: 30px; /* Margem inferior para separar do conteúdo */
+  color: #333; /* Cor do texto */
+  font-size: 28px; /* Tamanho da fonte */
+  font-weight: 600; /* Peso da fonte */
 }
 
+/* Estilos para o grupo de input (label + input) */
 .input-group {
-  margin-bottom: 20px;
-  text-align: left;
+  margin-bottom: 20px; /* Espaçamento inferior entre os grupos de input */
+  text-align: left; /* Alinha o texto à esquerda dentro do grupo */
 }
 
+/* Estilos para os rótulos dos inputs */
 .input-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: bold;
-  font-size: 15px;
+  display: block; /* Garante que o label ocupe sua própria linha */
+  margin-bottom: 8px; /* Espaçamento inferior para separar do input */
+  color: #555; /* Cor do texto */
+  font-weight: bold; /* Texto em negrito */
+  font-size: 15px; /* Tamanho da fonte */
 }
 
+/* Estilos para os campos de input de texto */
 .input-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%; /* Ocupa a largura total do grupo */
+  padding: 12px; /* Espaçamento interno do input */
+  border: 1px solid #ddd; /* Borda fina e clara */
+  border-radius: 5px; /* Cantos levemente arredondados */
+  font-size: 16px; /* Tamanho da fonte do texto digitado */
+  box-sizing: border-box; /* Garante que o padding não aumente a largura total do input */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Transição suave para foco */
 }
 
+/* Estilos para os campos de input ao receber foco */
 .input-group input:focus {
-  outline: none;
-  border-color: #28a745; /* Cor verde para foco na tela de registro */
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
+  outline: none; /* Remove o contorno padrão do foco */
+  border-color: #28a745; /* Cor verde para a borda no foco */
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25); /* Sombra para destacar o foco */
 }
 
+/* Estilos para o botão de registro */
 .register-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #28a745; /* Botão verde para registro */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 10px;
+  width: 100%; /* Ocupa a largura total da caixa */
+  padding: 12px; /* Espaçamento interno do botão */
+  background-color: #28a745; /* Cor de fundo verde para o botão de registro */
+  color: white; /* Cor do texto branca */
+  border: none; /* Remove a borda padrão */
+  border-radius: 5px; /* Cantos arredondados */
+  font-size: 18px; /* Tamanho da fonte do texto do botão */
+  font-weight: 600; /* Peso da fonte */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+  margin-top: 10px; /* Margem superior para separar de outros elementos */
 }
 
+/* Estilos para o botão de registro ao passar o mouse */
 .register-button:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+  background-color: #218838; /* Cor de fundo mais escura ao passar o mouse */
+  transform: translateY(-1px); /* Pequeno efeito de elevação */
 }
 
-/* Estilo para a mensagem de erro */
+/* Estilos para a mensagem de erro */
 .error-message {
-  color: #dc3545; /* Vermelho para erro */
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: 500;
+  color: #dc3545; /* Cor do texto vermelho para indicar erro */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-top: -10px; /* Ajuste da margem superior */
+  margin-bottom: 15px; /* Espaçamento inferior */
+  text-align: center; /* Centraliza o texto */
+  font-weight: 500; /* Peso da fonte */
 }
 
-/* Estilo para mensagem de sucesso */
+/* Estilos para mensagem de sucesso */
 .success-message {
-  color: #28a745; /* Verde para sucesso */
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: 500;
+  color: #28a745; /* Cor do texto verde para indicar sucesso */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-top: -10px; /* Ajuste da margem superior */
+  margin-bottom: 15px; /* Espaçamento inferior */
+  text-align: center; /* Centraliza o texto */
+  font-weight: 500; /* Peso da fonte */
 }
 
-/* Estilo para o link "Já tem uma conta?" */
+/* Estilos para o link "Já tem uma conta?" */
 .login-link {
-  margin-top: 20px;
-  font-size: 14px;
+  margin-top: 20px; /* Margem superior para separar de outros elementos */
+  font-size: 14px; /* Tamanho da fonte */
   color: #007bff; /* Cor azul para o link de login */
-  cursor: pointer;
-  transition: color 0.2s ease;
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: color 0.2s ease; /* Transição suave na cor */
 }
 
+/* Estilos para o link de login ao passar o mouse */
 .login-link:hover {
-  text-decoration: underline;
-  color: #0056b3;
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+  color: #0056b3; /* Escurece a cor no hover */
 }
 
 /* --- Media Queries para Responsividade --- */
 
+/* Estilos para telas com largura máxima de 600px */
 @media (max-width: 600px) {
   .register-box {
-    padding: 30px 25px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 30px 25px; /* Reduz o padding em telas menores */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra mais suave em telas pequenas */
   }
 
   .register-box h2 {
-    font-size: 26px;
-    margin-bottom: 25px;
+    font-size: 26px; /* Ajusta o tamanho da fonte do título */
+    margin-bottom: 25px; /* Ajusta a margem inferior do título */
   }
 
   .input-group label,
   .input-group input,
   .register-button {
-    font-size: 15px;
+    font-size: 15px; /* Ajusta o tamanho da fonte para melhor leitura em celulares */
   }
 
   .input-group input {
-    padding: 10px;
+    padding: 10px; /* Reduz o padding dos inputs */
   }
 
   .register-button {
-    padding: 10px;
+    padding: 10px; /* Reduz o padding do botão */
   }
 }
 
+/* Estilos para telas com largura máxima de 400px (telefones muito pequenos) */
 @media (max-width: 400px) {
   .register-container {
-    padding: 10px;
+    padding: 10px; /* Reduz o padding do container para telas muito pequenas */
   }
 
   .register-box {
-    border-radius: 0;
-    box-shadow: none;
+    border-radius: 0; /* Remove o border-radius para ocupar toda a largura */
+    box-shadow: none; /* Remove a sombra para uma aparência mais nativa em mobile */
   }
 }
