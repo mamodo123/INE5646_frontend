@@ -2,43 +2,45 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../api/axiosInstance';
-import { useAuth } from '../../context/AuthContext'; // Para pegar o token e o logout
-import './ProfileScreen.css'; // Você pode reutilizar ou criar um novo CSS
+import { useAuth } from '../../context/AuthContext';
+import './ProfileScreen.css'; // Reutilizando ou criando um novo CSS
 
 const ProfileScreen = () => {
-  const { logout } = useAuth(); // Pegar a função logout do contexto
+  const { logout } = useAuth();
   const [name, setName] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true); // Novo estado para carregamento do perfil
   const navigate = useNavigate();
 
-  // Opcional: Carregar o nome atual do usuário ao montar a tela
-  // Isso requer uma rota no backend para "pegar" o perfil do usuário logado.
-  // Por simplicidade, não vou adicionar essa rota agora, mas é uma boa prática.
-  // Por enquanto, o campo nome virá vazio e o usuário pode preencher para atualizar.
-  // Se quiser carregar o nome, você precisaria de:
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const response = await API.get('/profile'); // Rota GET /api/profile no backend
-  //       setName(response.data.user.name);
-  //     } catch (err) {
-  //       console.error("Erro ao carregar perfil:", err);
-  //       setError("Não foi possível carregar os dados do perfil.");
-  //     }
-  //   };
-  //   fetchProfile();
-  // }, []);
-
+  // NOVO: useEffect para carregar o nome do usuário ao montar a tela
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await API.get('/profile'); // Requisição GET para o backend
+        setName(response.data.user.name); // Define o nome no estado
+        setIsLoadingProfile(false); // Finaliza o carregamento
+      } catch (err) {
+        console.error("Erro ao carregar perfil:", err.response ? err.response.data : err.message);
+        setError("Não foi possível carregar os dados do perfil.");
+        setIsLoadingProfile(false);
+        // Se for erro de autenticação (401/403), o interceptador do Axios já vai deslogar
+      }
+    };
+    fetchProfile();
+  }, []); // Array de dependências vazio para rodar apenas uma vez na montagem
 
   const validateForm = () => {
     setError('');
     setSuccessMessage('');
 
-    // Validação de nome (se for alterado)
+    // Validação de nome (agora verifica se foi alterado e se não está vazio)
+    // Se o usuário não alterou o nome, mas alterou a senha, setName('');
+    // ao carregar os dados não vai resetar o nome original.
+    // É importante que o backend aceite name nulo para não alterar.
     if (name && name.trim() === '') {
       setError('O nome não pode ser vazio.');
       return false;
@@ -74,10 +76,17 @@ const ProfileScreen = () => {
         setError('Para alterar a senha, a senha antiga é obrigatória.');
         return false;
       }
+    } else { // Se newPassword NÃO foi fornecida, mas oldPassword ou confirmNewPassword foram
+        if (oldPassword || confirmNewPassword) {
+            setError('Preencha a nova senha ou deixe os campos de senha em branco para não alterar.');
+            return false;
+        }
     }
 
-    // Se nenhuma alteração de nome ou senha foi tentada, ou se tudo validou
-    if (!name && !oldPassword && !newPassword && !confirmNewPassword) {
+
+    // Verifica se alguma alteração real foi feita ou se os campos de nome/senha não foram mexidos
+    // Apenas envie a requisição se houver algo para atualizar
+    if (!name && !newPassword) { // Se nem nome nem nova senha foram preenchidos
         setError('Nenhuma alteração foi fornecida.');
         return false;
     }
@@ -95,11 +104,18 @@ const ProfileScreen = () => {
 
     try {
       const updateData = {};
-      if (name) updateData.name = name;
-      if (newPassword) {
+      if (name) updateData.name = name; // Envia o nome apenas se o campo foi preenchido/alterado
+      
+      // Só adiciona os dados de senha se uma nova senha foi fornecida
+      if (newPassword) { 
         updateData.oldPassword = oldPassword;
         updateData.newPassword = newPassword;
-        updateData.confirmNewPassword = confirmNewPassword; // Backend não usa, mas bom para enviar
+      }
+
+      // Se nenhum dado para atualização foi coletado (ex: nome veio vazio e nova senha vazia), não faça a requisição
+      if (Object.keys(updateData).length === 0) {
+        setError('Nenhuma alteração foi fornecida.');
+        return; // Não envia a requisição se não há nada para atualizar
       }
 
       const response = await API.put('/profile', updateData);
@@ -110,8 +126,8 @@ const ProfileScreen = () => {
         setOldPassword('');
         setNewPassword('');
         setConfirmNewPassword('');
-        // Opcional: Limpar campo de nome se ele foi atualizado
-        // setName('');
+        // Opcional: Limpar campo de nome se ele foi atualizado para o novo nome digitado
+        // setName(''); // Não, o nome já está no estado, não precisa limpar
       } else {
         setError('Ocorreu um erro inesperado ao atualizar o perfil.');
       }
@@ -122,16 +138,26 @@ const ProfileScreen = () => {
       } else {
         setError('Ocorreu um erro ao tentar atualizar o perfil. Verifique sua conexão ou tente novamente.');
       }
-      // Se o token expirou durante a requisição, o interceptor do Axios já deve deslogar.
     }
   };
 
   const handleGoToHome = () => {
-    navigate('/app'); // Ou para onde for sua tela principal
+    navigate('/app');
   };
 
+  if (isLoadingProfile) { // Mostra um carregamento enquanto busca o nome
+    return (
+      <div className="register-container">
+        <div className="register-box">
+          <h2>Carregando Perfil...</h2>
+          <p>Por favor, aguarde.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="register-container"> {/* Reutilizando o CSS do registro */}
+    <div className="register-container">
       <div className="register-box">
         <h2>Atualizar Perfil</h2>
         {error && <p className="error-message">{error}</p>}
@@ -142,9 +168,9 @@ const ProfileScreen = () => {
           <input
             type="text"
             id="name"
-            value={name}
+            value={name} {/* <<< AGORA O CAMPO É PREENCHIDO COM O NOME */}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Deixe em branco para não alterar"
+            placeholder="Seu nome atual"
           />
         </div>
         <div className="input-group">
