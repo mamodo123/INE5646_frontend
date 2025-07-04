@@ -1,15 +1,15 @@
-// src/index.js (ou o arquivo de entrada principal do seu React)
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from './context/AuthContext'; // <--- IMPORTE AQUI
+import { AuthProvider } from './context/AuthContext'; // <--- ESSENCIAL
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider> {/* <--- ENVOLVA SEU APP COM O PROVEDOR */}
+    <AuthProvider> {/* <--- SEU APP PRECISA ESTAR AQUI DENTRO */}
       <App />
     </AuthProvider>
   </React.StrictMode>

@@ -4,25 +4,27 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginScreen from './components/LoginScreen/LoginScreen';
 import RegisterScreen from './components/RegisterScreen/RegisterScreen';
 import HomeScreen from './components/HomeScreen/HomeScreen';
-import ProfileScreen from './components/ProfileScreen/ProfileScreen'; // <<< Importe a nova tela
-import { useAuth } from './context/AuthContext';
+import ProfileScreen from './components/ProfileScreen/ProfileScreen';
+import { useAuth } from './context/AuthContext'; // Importe do CONTEXTO
 import API from './api/axiosInstance';
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth(); // Este aqui está correto
 
   if (isLoading) {
-    return <div>Carregando...</div>; // Ou um spinner de carregamento
+    return <div>Carregando...</div>;
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" replace />; // Adicione 'replace' aqui também
 };
 
 function App() {
-  const { logout } = useAuth();
+  // AQUI ESTÁ A MUDANÇA: Obtenha isAuthenticated e isLoading do useAuth()
+  const { isAuthenticated, isLoading, logout } = useAuth();
 
   useEffect(() => {
-    // Interceptador de requisições (opcional, mas boa prática para adicionar token)
+    // Interceptador de requisições (agora em axiosInstance.js, então pode ser removido daqui se duplicado)
+    // Se você já colocou este interceptador em axiosInstance.js, remova-o daqui.
     const requestInterceptor = API.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('jwt_token');
@@ -42,13 +44,10 @@ function App() {
       async (error) => {
         const originalRequest = error.config;
 
-        // Se o erro for 401 (Unauthorized) ou 403 (Forbidden) e não for uma tentativa de refresh
-        // (No seu caso, 403 é para token inválido/expirado)
         if (error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
-          originalRequest._retry = true; // Marca a requisição para evitar loops infinitos
+          originalRequest._retry = true;
           console.error('Erro 401/403: Token inválido ou expirado. Deslogando...');
-          logout(); // Chama a função logout do seu AuthContext
-          // O App.js, por meio do PrivateRoute, detecta a mudança em isAuthenticated e redireciona para /login
+          logout();
           return Promise.reject(error);
         }
         return Promise.reject(error);
@@ -57,34 +56,63 @@ function App() {
 
     // Limpa os interceptadores quando o componente é desmontado
     return () => {
-      API.interceptors.request.eject(requestInterceptor);
+      API.interceptors.request.eject(requestInterceptor); // Remova se já está em axiosInstance.js
       API.interceptors.response.eject(responseInterceptor);
     };
-  }, [logout]); // Dependência em logout para garantir que o efeito seja re-executado se logout mudar
+  }, [logout]);
+
+  // Adicione um log para depurar o valor de isAuthenticated no App.js
+  console.log('App.js está renderizando. isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+
+  // AQUI ESTÁ A OUTRA MUDANÇA: Use isLoading para mostrar um estado de carregamento inicial
+  if (isLoading) {
+    return <div>Verificando sessão...</div>;
+  }
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route
-          path="/app"
-          element={
-            <PrivateRoute>
-              <HomeScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route // <<< NOVA ROTA PARA O PERFIL
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <ProfileScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/login" />} /> {/* Redireciona para login por padrão */}
-      </Routes>
+      <div className="App">
+        <Routes>
+          {/* Rota para o Login: se já autenticado, redireciona para /app */}
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <LoginScreen />}
+          />
+
+          {/* Rota para o Registro: se já autenticado, redireciona para /app */}
+          <Route
+            path="/register"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <RegisterScreen />}
+          />
+
+          {/* Rota Protegida: Apenas acessível se autenticado */}
+          <Route
+            path="/app"
+            element={
+              <PrivateRoute>
+                <HomeScreen />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Rota Protegida para /profile */}
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ProfileScreen />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Rota Padrão (Catch-all): Se nenhuma rota corresponder */}
+          {/* Redireciona para /app se autenticado, caso contrário para /login */}
+          <Route
+            path="*"
+            element={isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/login" replace />}
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }
