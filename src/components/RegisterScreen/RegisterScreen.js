@@ -1,7 +1,7 @@
 // src/components/RegisterScreen/RegisterScreen.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from '../../api/axiosInstance'; // Importe sua instância de Axios
+import API from '../../api/axiosInstance';
 import './RegisterScreen.css';
 
 const RegisterScreen = () => {
@@ -15,7 +15,10 @@ const RegisterScreen = () => {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    // ... (sua lógica de validação de formulário existente)
+    // Limpa mensagens de erro e sucesso anteriores antes de validar
+    setError('');
+    setSuccessMessage('');
+
     if (!name || !email || !password || !confirmPassword) {
       setError('Todos os campos são obrigatórios.');
       return false;
@@ -24,16 +27,36 @@ const RegisterScreen = () => {
       setError('Por favor, insira um email válido.');
       return false;
     }
-    if (password.length < 6) {
-      setError('A senha deve ter pelo menos 6 caracteres.');
+
+    // --- NOVAS VALIDAÇÕES DE SENHA ---
+    if (password.length < 8) { // Aumentei para 8 caracteres como boa prática
+      setError('A senha deve ter pelo menos 8 caracteres.');
       return false;
     }
+    if (!/[A-Z]/.test(password)) {
+      setError('A senha deve conter pelo menos uma letra maiúscula.');
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      setError('A senha deve conter pelo menos uma letra minúscula.');
+      return false;
+    }
+    if (!/[0-9]/.test(password)) {
+      setError('A senha deve conter pelo menos um número.');
+      return false;
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) { // Regex para caracteres especiais
+      setError('A senha deve conter pelo menos um caractere especial.');
+      return false;
+    }
+    // --- FIM DAS NOVAS VALIDAÇÕES DE SENHA ---
+
     if (password !== confirmPassword) {
       setError('As senhas não coincidem.');
       return false;
     }
-    setError('');
-    return true;
+
+    return true; // Se todas as validações passarem
   };
 
   const handleRegister = async () => {
@@ -45,19 +68,16 @@ const RegisterScreen = () => {
     }
 
     try {
-      // Faz a requisição POST para a rota de registro do seu backend
+      console.log('Dados para registro:', { name, email, password });
       const response = await API.post('/register', { name, email, password });
 
-      // Se a requisição foi bem-sucedida (o backend retorna 201 para registro)
       if (response.status === 201) {
         setSuccessMessage(response.data.message || 'Registro realizado com sucesso! Você pode fazer login agora.');
-        // Limpa os campos após o sucesso
         setName('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
 
-        // Redireciona para a tela de login após um pequeno atraso para o usuário ver a mensagem
         setTimeout(() => {
           navigate('/login');
         }, 2000);
@@ -65,12 +85,11 @@ const RegisterScreen = () => {
         setError('Ocorreu um erro inesperado ao registrar.');
       }
     } catch (err) {
-      // Captura erros de requisição (por exemplo, status 400 se o email já existe)
       console.error('Erro no registro:', err.response ? err.response.data : err.message);
       if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message); // Exibe a mensagem de erro do backend
+        setError(err.response.data.message);
       } else {
-        setError('Ocorreu um erro ao tentar registrar. Tente novamente.');
+        setError('Ocorreu um erro ao tentar registrar. Verifique sua conexão ou tente novamente.');
       }
     }
   };
@@ -113,7 +132,7 @@ const RegisterScreen = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Mínimo 6 caracteres"
+            placeholder="Mínimo 8 caracteres, com maiúscula, minúscula, número e especial"
           />
         </div>
         <div className="input-group">
