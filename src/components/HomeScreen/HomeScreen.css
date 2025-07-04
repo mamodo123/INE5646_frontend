@@ -1,0 +1,125 @@
+/* src/components/HomeScreen/HomeScreen.css */
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Garante que ocupe a altura total da tela */
+  background-color: #e0f7fa; /* Um tom de azul claro e suave para o fundo */
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.home-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px; /* Bordas levemente mais arredondadas para um visual moderno */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada para profundidade */
+  width: 100%;
+  max-width: 500px; /* Um pouco mais largo que as telas de login/registro para mais conteúdo */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.home-box h2 {
+  margin-bottom: 25px;
+  color: #007bff; /* Cor primária vibrante para o título */
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.protected-data {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f8f9fa; /* Fundo leve para destacar o texto de dados protegidos */
+  border: 1px solid #e2e6ea;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #495057;
+  word-break: break-word; /* Garante que textos longos se ajustem à largura */
+}
+
+.home-buttons {
+  display: flex;
+  flex-direction: column; /* Botões empilhados em telas menores */
+  gap: 15px; /* Espaçamento entre os botões */
+  margin-top: 20px;
+}
+
+.home-button {
+  width: 100%;
+  padding: 15px 25px;
+  background-color: #28a745; /* Verde para o botão de ação principal (Meu Perfil) */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves para interatividade */
+}
+
+.home-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px); /* Pequeno efeito de elevação no hover */
+}
+
+.logout-button {
+  background-color: #dc3545; /* Vermelho para o botão de sair (ação destrutiva) */
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.error-message {
+  color: #dc3545; /* Vermelho padrão para mensagens de erro */
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* --- Media Queries para Responsividade --- */
+
+@media (max-width: 600px) {
+  .home-box {
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra mais discreta em telas menores */
+  }
+
+  .home-box h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .protected-data {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .home-button {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .home-buttons {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .home-container {
+    padding: 10px;
+  }
+
+  .home-box {
+    border-radius: 0; /* Sem bordas arredondadas em telas muito pequenas para ocupar 100% da largura */
+    box-shadow: none; /* Remove a sombra para uma aparência mais nativa em mobile */
+  }
+}
