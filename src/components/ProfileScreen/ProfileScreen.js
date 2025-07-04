@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../api/axiosInstance';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
 import './ProfileScreen.css'; // Reutilizando ou criando um novo CSS
 
 const ProfileScreen = () => {
-  const { logout } = useAuth();
+//   const { logout } = useAuth();
   const [name, setName] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

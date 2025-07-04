@@ -1,0 +1,291 @@
+/* === Base === */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  /* ALTERAÇÃO: Garante que o container ocupe exatamente a altura da tela */
+  height: 100vh; 
+  background: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #333;
+  /* ALTERAÇÃO: Impede a rolagem do corpo da página */
+  overflow: hidden; 
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* ALTERAÇÃO: Altura do header reduzida */
+  padding: 8px 24px; 
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  z-index: 10;
+  /* ALTERAÇÃO: Impede que o header encolha */
+  flex-shrink: 0; 
+}
+
+.dashboard-header h2 {
+  font-size: 20px; /* Levemente reduzido */
+  color: #007bff;
+}
+
+.dashboard-header > div {
+  display: flex;
+  gap: 10px;
+}
+
+.dashboard-header button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: #f8f9fa;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dashboard-header button:hover {
+  background: #e9ecef;
+  transform: translateY(-1px);
+}
+
+/* === Main Layout === */
+.dashboard-main {
+  display: flex;
+  flex-grow: 1;
+  /* ALTERAÇÃO: Essencial para conter o layout e evitar rolagem dupla */
+  overflow: hidden; 
+}
+
+.dashboard-sidebar {
+  width: 260px;
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.dashboard-sidebar h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  color: #3498db;
+}
+
+.dashboard-sidebar button {
+  padding: 10px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dashboard-sidebar button:hover {
+  background: #2980b9;
+}
+
+.dashboard-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-sidebar ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: 0.2s;
+  background: transparent;
+}
+
+.dashboard-sidebar ul li:hover {
+  background: #34495e;
+}
+
+.dashboard-sidebar ul li.active {
+  background: #3498db;
+  font-weight: bold;
+}
+
+.chat-name-text {
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 6px;
+}
+
+.delete-chat-button {
+  opacity: 0.7;
+  transition: 0.2s ease;
+}
+
+.delete-chat-button:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* === Chat Area === */
+.dashboard-chat-area {
+  flex-grow: 1;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #e0e0e0;
+  /* ALTERAÇÃO: Impede que a área de chat vaze para fora do container principal */
+  overflow: hidden; 
+}
+
+.chat-area-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding: 16px 20px 10px; /* Ajuste no padding */
+  flex-shrink: 0;
+}
+
+/* ALTERAÇÃO: A área de mensagens agora cresce e tem sua própria rolagem */
+.chat-messages-display {
+  flex-grow: 1;
+  overflow-y: auto; 
+  padding: 0 20px;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.message-bubble.user {
+  background: #007bff;
+  color: #fff;
+  margin-left: auto;
+  border-bottom-right-radius: 2px;
+}
+
+.message-bubble.ai {
+  background: #ececec;
+  color: #333;
+  margin-right: auto;
+  border-bottom-left-radius: 2px;
+}
+
+/* === Chat Input === */
+.chat-input-form {
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px; /* Ajuste no padding */
+  margin-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.chat-input-form input {
+  flex-grow: 1;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.chat-input-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
+}
+
+.chat-input-form button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.chat-input-form button:hover {
+  background: #0056b3;
+}
+
+.chat-input-form button.disabled-button {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* === Responsivo === */
+@media (max-width: 768px) {
+  .dashboard-main {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    max-height: 180px; 
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .dashboard-sidebar ul {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .dashboard-sidebar ul li {
+    flex-shrink: 0;
+    min-width: 150px;
+  }
+
+  .dashboard-chat-area {
+    padding: 0; /* Remove padding para dar mais espaço */
+  }
+
+  .chat-area-title, .chat-input-form {
+      padding-left: 16px;
+      padding-right: 16px;
+  }
+  
+  .chat-messages-display {
+      padding-left: 16px;
+      padding-right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h2 {
+    font-size: 18px;
+  }
+
+  .chat-area-title {
+    font-size: 18px;
+  }
+
+  .chat-input-form input {
+    font-size: 14px;
+  }
+
+  .chat-input-form button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}

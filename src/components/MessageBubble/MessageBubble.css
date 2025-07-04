@@ -1,0 +1,20 @@
+.message-bubble {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 80%;
+  word-break: break-word;
+  font-size: 0.95rem;
+}
+
+.message-bubble.user {
+  align-self: flex-end;
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.message-bubble.ai {
+  align-self: flex-start;
+  background-color: #f8f9fa;
+  color: #212529;
+}
