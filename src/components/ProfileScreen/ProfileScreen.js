@@ -168,7 +168,7 @@ const ProfileScreen = () => {
           <input
             type="text"
             id="name"
-            value={name} {/* <<< AGORA O CAMPO É PREENCHIDO COM O NOME */}
+            value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Seu nome atual"
           />
