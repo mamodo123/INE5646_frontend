@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import API from '../../api/axiosInstance'; // Importe sua instância de Axios
 import './LoginScreen.css';
 
 const LoginScreen = () => {
@@ -13,27 +14,31 @@ const LoginScreen = () => {
   const { login } = useAuth();
 
   const handleLogin = async () => {
-    setError('');
-    try {
-      const response = await new Promise(resolve => {
-        setTimeout(() => {
-          if (email === 'user@example.com' && password === 'password123') {
-            resolve({ success: true, token: 'fake_jwt_token_12345' });
-          } else {
-            resolve({ success: false, message: 'Email ou senha inválidos.' });
-          }
-        }, 1000);
-      });
+    setError(''); // Limpa erros anteriores
 
-      if (response.success) {
-        console.log('Login bem-sucedido!');
-        login(response.token);
+    try {
+      // Faz a requisição POST para a rota de login do seu backend
+      const response = await API.post('/login', { email, password });
+
+      // Se a requisição foi bem-sucedida (status 200, 201, etc.)
+      if (response.status === 200) { // O backend retorna 200 para sucesso no login
+        console.log('Login bem-sucedido!', response.data);
+        // O token JWT vem na propriedade 'token' da resposta do backend
+        login(response.data.token); // Chama a função login do contexto com o token recebido
+        // O redirecionamento para /app será tratado pelo App.js (rotas)
       } else {
-        setError(response.message || 'Erro desconhecido ao fazer login.');
+        // Isso geralmente não será atingido se o backend retornar um status de erro (400, 401),
+        // pois o 'catch' abaixo ou o interceptador de Axios lidarão com isso.
+        setError('Ocorreu um erro inesperado ao fazer login.');
       }
     } catch (err) {
-      console.error('Erro na autenticação:', err);
-      setError('Ocorreu um erro ao tentar fazer login. Tente novamente.');
+      // Captura erros de requisição (por exemplo, status 400, 401, 500)
+      console.error('Erro na autenticação:', err.response ? err.response.data : err.message);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message); // Exibe a mensagem de erro do backend
+      } else {
+        setError('Ocorreu um erro ao tentar fazer login. Verifique sua conexão ou tente novamente.');
+      }
     }
   };
 

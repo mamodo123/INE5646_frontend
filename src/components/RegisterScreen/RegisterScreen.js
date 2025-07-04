@@ -1,9 +1,9 @@
 // src/components/RegisterScreen/RegisterScreen.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe useNavigate
+import { useNavigate } from 'react-router-dom';
+import API from '../../api/axiosInstance'; // Importe sua instância de Axios
 import './RegisterScreen.css';
 
-// Não precisamos mais das props onRegisterSuccess, onGoToLogin aqui
 const RegisterScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,9 +12,10 @@ const RegisterScreen = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const navigate = useNavigate(); // Inicialize o hook de navegação
+  const navigate = useNavigate();
 
   const validateForm = () => {
+    // ... (sua lógica de validação de formulário existente)
     if (!name || !email || !password || !confirmPassword) {
       setError('Todos os campos são obrigatórios.');
       return false;
@@ -44,28 +45,38 @@ const RegisterScreen = () => {
     }
 
     try {
-      console.log('Dados para registro:', { name, email, password });
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Faz a requisição POST para a rota de registro do seu backend
+      const response = await API.post('/register', { name, email, password });
 
-      setSuccessMessage('Registro realizado com sucesso! Você pode fazer login agora.');
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      // Se a requisição foi bem-sucedida (o backend retorna 201 para registro)
+      if (response.status === 201) {
+        setSuccessMessage(response.data.message || 'Registro realizado com sucesso! Você pode fazer login agora.');
+        // Limpa os campos após o sucesso
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
 
-      setTimeout(() => { 
-        navigate('/login');
-      }, 2000);
-      
+        // Redireciona para a tela de login após um pequeno atraso para o usuário ver a mensagem
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        setError('Ocorreu um erro inesperado ao registrar.');
+      }
     } catch (err) {
-      setError('Erro ao registrar. Por favor, tente novamente.');
-      console.error('Erro no registro:', err);
+      // Captura erros de requisição (por exemplo, status 400 se o email já existe)
+      console.error('Erro no registro:', err.response ? err.response.data : err.message);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message); // Exibe a mensagem de erro do backend
+      } else {
+        setError('Ocorreu um erro ao tentar registrar. Tente novamente.');
+      }
     }
   };
 
   const handleGoToLogin = () => {
-    console.log('Botão Entrar clicado! Navegando para /login');
-    navigate('/login'); // Usa navigate para ir para a rota de login
+    navigate('/login');
   };
 
   return (
