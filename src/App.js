@@ -114,13 +114,13 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/slides" element={<Navigate to="/presentation/presentation.html" replace />} />
           {/* Rota curinga para qualquer caminho não correspondido.
               Redireciona para /app se autenticado, ou para /login caso contrário. */}
           <Route
             path="*"
             element={isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/login" replace />}
           />
-          <Route path="/slides" element={<Navigate to="/presentation/presentation.html" replace />} />
         </Routes>
       </div>
     </Router>
