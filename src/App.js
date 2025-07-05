@@ -114,7 +114,21 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/slides" element={<Navigate to="/presentation/presentation.html" replace />} />
+          <Route
+            path="/slides"
+            element={
+              <div style={{ height: '100vh', width: '100%' }}>
+                <iframe
+                  src="/presentation/presentation.html"
+                  title="Apresentação"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 'none' }}
+                />
+              </div>
+            }
+          />
+
           {/* Rota curinga para qualquer caminho não correspondido.
               Redireciona para /app se autenticado, ou para /login caso contrário. */}
           <Route
