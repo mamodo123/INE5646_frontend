@@ -9,14 +9,14 @@ import './MessageBubble.css';
 const MessageBubble = ({ sender, text }) => {
   // Verifica se o texto da mensagem é um bloco de código Python
   // A mensagem é considerada código se começar com '```python' e terminar com '```end'.
-  const isCode = text.startsWith('```python') && text.endsWith('```end');
+  const isCode = text.startsWith('```python') && (text.endsWith('```end') || text.endsWith('```'));
 
   // Se a mensagem for um bloco de código, renderiza-o usando SyntaxHighlighter
   if (isCode) {
     // Extrai o conteúdo do código, removendo os delimitadores '```python' e '```end'
     const codeContent = text
       .replace(/^```python\s*/, '') // Remove o marcador de início de código
-      .replace(/```end\s*$/, '');    // Remove o marcador de fim de código
+      .replace(/```end\s*$/, '').replace(/```\s*$/, '');    // Remove o marcador de fim de código
 
     return (
       // Aplica as classes CSS 'message-bubble' e a classe específica do remetente ('user' ou 'ai')
