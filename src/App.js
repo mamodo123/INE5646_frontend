@@ -120,6 +120,7 @@ function App() {
             path="*"
             element={isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/login" replace />}
           />
+          <Route path="/presentation" element={<Navigate to="/presentation/presentation.html" replace />} />
         </Routes>
       </div>
     </Router>
